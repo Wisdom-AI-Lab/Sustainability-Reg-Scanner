@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<​meta charset="UTF-8">
+<​meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISSB Horizon Scanner — TCCC (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<​style>
+ :root{
+ --ink:hashtag#0E1116; --paper:hashtag#F6F4EF; --panel:hashtag#FFFFFF; --line:hashtag#E0DACF;
+ --red:hashtag#B01E28; --red-bg:hashtag#F7E7E4; --red-ink:hashtag#8A1720;
+ --amber:hashtag#B8791F; --amber-bg:hashtag#FBF0DC;
+ --green:hashtag#2C6E49; --green-bg:hashtag#E7F0EA;
+ --slate:#586174; --slate-bg:hashtag#EBEDF1;
+ --muted:hashtag#6E6656;
+ --display:'Newsreader',serif; --body:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+ }
+ *{box-sizing:border-box}
+ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5}
+ .app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+ .sidebar{background:var(--ink);color:hashtag#E9E6DE;padding:22px 18px;position:sticky;top:0;height:100vh}
+ .brand{font-family:var(--display);font-size:19px;line-height:1.15}
+ .brand .k{color:var(--red);font-weight:700}
+ .brand small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:hashtag#9AA3B2;margin-top:8px;line-height:1.5}
+ nav{margin-top:22px;display:flex;flex-direction:column;gap:1px}
+ nav button{all:unset;cursor:pointer;padding:9px 11px;border-radius:5px;font-size:13.5px;color:hashtag#D7D3C9}
+ nav button:hover{background:rgba(255,255,255,.06)}
+ nav button.active{background:rgba(255,255,255,.13);color:hashtag#fff;font-weight:600}
+ nav .ws{font-family:var(--mono);font-size:9px;color:hashtag#79839A;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 6px 11px}
+ .side-foot{position:absolute;bottom:18px;left:18px;right:18px;font-family:var(--mono);font-size:10px;color:hashtag#79839A;line-height:1.6}
+ main{padding:24px 34px 70px;max-width:1180px}
+ .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:6px}
+ h1{font-family:var(--display);font-size:30px;margin:0;letter-spacing:-.01em}
+ .sub{color:var(--muted);margin-top:4px;font-size:13.5px;max-width:640px}
+ .fresh{font-family:var(--mono);font-size:11px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:7px 14px;white-space:nowrap;color:var(--muted)}
+ .fresh b{color:var(--ink)}
+ .chips{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 20px}
+ .chip{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;padding:5px 11px;border-radius:20px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--muted)}
+ .chip.active{background:var(--ink);color:hashtag#fff;border-color:var(--ink)}
+ .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
+ .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+ .kpi .n{font-family:var(--display);font-size:27px;line-height:1}
+ .kpi .l{font-size:11px;color:var(--muted);margin-top:5px}
+ .kpi.a .n{color:var(--green)} .kpi.b .n{color:var(--slate)} .kpi.c .n{color:var(--amber)} .kpi.d .n{color:var(--red)} .kpi.e .n{color:var(--ink)}
+ .panel{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:20px 22px;margin-bottom:18px}
+ .panel h2{font-family:var(--display);font-size:18px;margin:0 0 3px}
+ .panel .hint{color:var(--muted);font-size:12.5px;margin-bottom:14px}
+ .ev{border:1px solid var(--line);border-left:4px solid var(--slate);border-radius:8px;padding:15px 18px;margin-bottom:13px;background:var(--panel);transition:box-shadow .15s}
+ .ev:hover{box-shadow:0 4px 18px rgba(14,17,22,.07)}
+ .ev.high{border-left-color:var(--red)} .ev.medium{border-left-color:var(--amber)}
+ .ev-top{display:flex;justify-content:space-between;gap:14px;align-items:baseline;flex-wrap:wrap}
+ .ev-date{font-family:var(--mono);font-size:11px;color:var(--muted)}
+ .ev-tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+ .tag{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:4px}
+ .tag.high{background:var(--red-bg);color:var(--red-ink)} .tag.medium{background:var(--amber-bg);color:var(--amber)} .tag.low{background:var(--slate-bg);color:var(--slate)}
+ .tag.jur{background:hashtag#EFEBE2;color:var(--muted)} .tag.std{border:1px solid var(--line);color:var(--muted)}
+ .tag.eng{background:var(--ink);color:hashtag#fff}
+ .ev h3{font-family:var(--display);font-size:17px;margin:9px 0 5px;line-height:1.25}
+ .ev p{margin:0 0 10px;font-size:13px;color:hashtag#3A3A3A}
+ .recalc{background:hashtag#FBF9F4;border:1px dashed var(--line);border-radius:7px;padding:11px 13px;font-size:12.5px}
+ .recalc .rlbl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--red-ink);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+ .recalc .rlbl .pulse{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.6s infinite}
+ @keyframes pulse{0%{opacity:.35}50%{opacity:1}100%{opacity:.35}}
+  .btn{font-family:var(--mono);font-size:11px;cursor:pointer;border:none;padding:7px 13px;border-radius:5px;background:var(--ink);color:hashtag#fff}
+ .btn.ghost{background:var(--slate-bg);color:var(--slate)}
+ .btn.line{background:none;border:1px solid var(--line);color:var(--muted)}
+ .ev-foot{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+ .ev-foot b{color:var(--ink)}
+ .ent-pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+ .ent-pill{font-family:var(--mono);font-size:10px;background:var(--slate-bg);color:var(--slate);padding:2px 7px;border-radius:4px;cursor:pointer}
+ .ent-pill:hover{background:var(--ink);color:hashtag#fff}
+ table{width:100%;border-collapse:collapse;font-size:12.5px}
+ th{text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 9px;position:sticky;top:0;background:var(--panel)}
+ td{padding:9px;border-bottom:1px solid hashtag#F0ECE3;vertical-align:top}
+ tr.r:hover{background:hashtag#FBFAF6}
+ .st{display:inline-block;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;padding:3px 7px;border-radius:4px;white-space:nowrap}
+ .st.in{background:var(--green-bg);color:var(--green)} .st.out{background:var(--slate-bg);color:var(--slate)} .st.nt{background:hashtag#F2EEE4;color:var(--muted)}
+ .flash{animation:flash 2.4s ease-out}
+ @keyframes flash{0%{background:var(--amber-bg)}100%{background:transparent}}
+ .conf{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:3px}
+ .conf.High{background:var(--green-bg);color:var(--green)} .conf.Medium{background:var(--amber-bg);color:var(--amber)}
+ .conf.Low,.conf.Unverified{background:var(--slate-bg);color:var(--slate)}
+ .jflag{font-family:var(--mono);font-size:9.5px;padding:2px 6px;border:1px solid var(--line);border-radius:3px;color:var(--muted)}
+ .trig{display:grid;grid-template-columns:130px 1fr 90px;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid hashtag#F0ECE3}
+ .trig .tt{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em}
+ .trig .tf{font-size:12.5px}
+ .trig .tf small{display:block;color:var(--muted);margin-top:3px}
+ .verdict{font-family:var(--mono);font-size:10px;text-transform:uppercase;text-align:center;padding:5px 8px;border-radius:5px;border:2px solid}
+ .verdict.in{color:var(--green);border-color:var(--green)} .verdict.weak{color:var(--slate);border-color:var(--slate)}
+ .cover-bar{height:26px;border-radius:6px;overflow:hidden;display:flex;font-family:var(--mono);font-size:10px;color:hashtag#fff;margin:10px 0 4px}
+ .cover-bar .seg{display:flex;align-items:center;justify-content:center}
+ .det{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px;background:var(--panel);position:relative}
+ .det.changed{box-shadow:0 0 0 2px var(--amber) inset;animation:flash 2.4s ease-out}
+ .det-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+ .det-title{font-weight:600;font-size:15px}
+ .det-meta{color:var(--muted);font-size:12px;margin-top:3px}
+ .stamp{font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.07em;border:2px solid;border-radius:5px;padding:7px 13px;white-space:nowrap;transform:rotate(-3deg)}
+ .stamp.in{color:var(--green);border-color:var(--green)}
+ .stamp.out{color:var(--red);border-color:var(--red)}
+ .stamp.mon{color:var(--amber);border-color:var(--amber)}
+ .delta{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;margin-top:12px;background:var(--amber-bg);color:var(--amber);padding:5px 10px;border-radius:5px}
+ .delta .was{text-decoration:line-through;opacity:.7}
+ .trace{margin-top:13px;border-top:1px dashed var(--line);padding-top:11px}
+ .trace .tlbl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px}
+ .cond{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted hashtag#EEEAE0;font-size:12.5px}
+ .cond .cl{color:var(--ink)}
+ .cond .cv{font-family:var(--mono);font-size:11px}
+ .cond .cv .pf{padding:1px 6px;border-radius:3px;margin-left:8px}
+ .cond .cv .pf.pass{background:var(--green-bg);color:var(--green)}
+ .cond .cv .pf.fail{background:var(--red-bg);color:var(--red-ink)}
+ .gate{margin-top:9px;font-size:12px;padding:8px 11px;border-radius:6px;background:var(--amber-bg);color:var(--amber)}
+ .det-reason{margin-top:11px;font-size:12.5px;color:var(--muted);font-style:italic}
+ .det-foot{display:flex;gap:15px;flex-wrap:wrap;margin-top:11px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+ .verify{background:var(--amber-bg);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9.5px}
+ footer.disc{margin-top:26px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+ @media(max-width:820px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.kpis{grid-template-columns:repeat(2,1fr)}.trig{grid-template-columns:1fr}}
+<​/style>
+</head>
+<body>
+<div class="app">
+ <aside class="sidebar">
+ <div class="brand">ISSB Horizon<br>Scanner<small><span class="k">The Coca-Cola Company</span><br>Regulation-as-data &middot; demo</small></div>
+ <nav id="nav"></nav>
+ <div class="side-foot">Public-filing data only<br>No client data &middot; not advice</div>
+ </aside>
+ <main>
+ <div class="topbar">
+ <div><h1 id="ptitle">Scanner</h1><div class="sub" id="psub"></div></div>
+ <div class="fresh" id="fresh"></div>
+ </div>
+ <div class="chips" id="chips"></div>
+ <div id="content"></div>
+ <footer class="disc" id="disc"></footer>
+ </main>
+</div>
+<​script>
+const PAGES=[
+ {id:'scanner',label:'Scanner',ws:'Workstream 3 \u00b7 manage change'},
+ {id:'determinations',label:'Determinations (live rules)'},
+ {id:'register',label:'Register',ws:'Workstream 1 \u00b7 who must report'},
+ {id:'spotlight',label:'Multi-trigger spotlight'},
+ {id:'coverage',label:'Coverage / work queue'},
+ {id:'method',label:'Method'},
+];
+let DATA=null, page='scanner', jur='all', recalcApplied={};
+let overrides={entities:{},rules:{}}, prevResults={};
+
+async function boot(){
+ try{ DATA=await (await fetch('data.json',{cache:'no-store'})).json(); }
+ catch(e){ document.getElementById('content').innerHTML='<div class=panel>Could not load data.json \u2014 keep it beside index.html.</div>'; return; }
+ document.getElementById('fresh').innerHTML='Data as of <b>'+DATA.meta.last_updated+'</b> \u00b7 '+DATA.meta.cadence;
+ document.getElementById('disc').textContent=DATA.meta.disclaimer;
+ render();
+}
+
+function getFacts(id){ return Object.assign({}, (DATA.engine.entities[id]||{}).facts, overrides.entities[id]||{}); }
+function getRule(id){ return Object.assign({}, DATA.engine.rules[id], overrides.rules[id]||{}); }
+function cmp(a,op,b){ if(a===undefined||a===null)return false;
+ switch(op){case'>':return a>b;case'>=':return a>=b;case'<':return a<b;case'<=':return a<=b;case'==':return a===b;case'!=':return a!==b;} return false; }
+function fmt(v){ if(v===true)return'Yes'; if(v===false)return'No'; if(typeof v==='number'&&v>=1e6)return'$'+(v/1e9>=1?(v/1e9).toFixed(1)+'bn':(v/1e6).toFixed(0)+'m'); return String(v); }
+function opText(op,v){ const t={'>':'>','>=':'\u2265','<':'<','<=':'\u2264','==':'=','!=':'\u2260'}[op]; return t+' '+fmt(v); }
+function stampClass(r){ return r==='in_scope'?'in':r==='out_of_scope'?'out':'mon'; }
+function stampText(r){ return r==='in_scope'?'APPLICABLE':r==='out_of_scope'?'NOT APPLICABLE':'MONITOR'; }
+
+function evaluate(entityId, ruleId){
+ const f=getFacts(entityId), r=getRule(ruleId);
+ if(r.type==='boundary'){
+ const val=f[r.field];
+ let b=r.buckets.find(bk=>cmp(val,bk.op,bk.value))||r.buckets[r.buckets.length-1];
+ return {result:b.result, boundary:true, stamp:b.stamp, treatment:b.treatment, parent:b.parent, ghg:b.ghg,
+ trace:[{label:'KO ownership of CCBA', actual:val+'%', pass:true, threshold:r.line_label}],
+ reason:'Ownership '+val+'% \u2192 '+b.treatment+' \u00b7 '+b.ghg, rule:r, facts:f};
+ }
+ const trace=r.conditions.map(c=>({label:c.label, actual:fmt(f[c.field]), pass:cmp(f[c.field],c.op,c.value), threshold:opText(c.op,c.value)}));
+ const condsPass = r.logic==='OR' ? trace.some(t=>t.pass) : trace.every(t=>t.pass);
+ let result, reason;
+ if(r.mandatory===false){ result='out_of_scope'; reason='Regime is now voluntary \u2014 '+(r.voluntary_ref||''); }
+ else if(!condsPass){ result='out_of_scope'; reason=r.fail_reason||'Applicability conditions not met'; }
+ else if(r.enforcement_active===false){ result='monitoring'; reason=r.gate_reason||'Thresholds met but enforcement paused'; }
+ else { result='in_scope'; reason=r.pass_reason||'All applicability conditions satisfied'; }
+ return {result, reason, trace, rule:r, facts:f};
+}
+function snapshotEval(){ DATA.engine.determinations.forEach(d=>{ prevResults[d.id]=evaluate(d.entity,d.rule).result; }); }
+function applyMutations(muts){ (muts||[]).forEach(m=>{
+ const bag = m.target==='rule'?overrides.rules:overrides.entities;
+ bag[m.id]=Object.assign({}, bag[m.id]||{}, m.set);
+}); }
+function resetEngine(){ overrides={entities:{},rules:{}}; prevResults={}; recalcApplied={}; render(); }
+
+function nav(){
+ const n=document.getElementById('nav'); n.innerHTML='';
+ PAGES.forEach(p=>{
+ if(p.ws){const w=document.createElement('div');w.className='ws';w.textContent=p.ws;n.appendChild(w);}
+ const b=document.createElement('button');b.textContent=p.label;b.className=p.id===page?'active':'';
+ b.onclick=()=>{page=p.id;render();};n.appendChild(b);
+ });
+}
+function chips(){
+ const wrap=document.getElementById('chips');
+ if(page!=='register'&&page!=='scanner'){wrap.innerHTML='';return;}
+ const js=['all',...new Set(DATA.obligations.map(o=>o.jurisdiction))].slice(0,13);
+ wrap.innerHTML='';
+ js.forEach(j=>{const c=document.createElement('div');c.className='chip'+(j===jur?' active':'');
+ c.textContent=j==='all'?'All jurisdictions':j;c.onclick=()=>{jur=j;render();};wrap.appendChild(c);});
+}
+function scopeClassR(v){if(!v)return'nt';const s=v.toLowerCase();return s.includes('in scope')?'in':s.includes('out')?'out':'nt';}
+function scopeLabelR(v){if(!v||v==='Not tested')return'Not tested';const s=v.toLowerCase();return s.includes('in scope')?'In scope':s.includes('out')?'Out of scope':v;} 
+function render(){
+ nav();chips();
+ document.getElementById('ptitle').textContent=PAGES.find(p=>p.id===page).label;
+ const subs={
+ scanner:'The weekly regulatory feed \u2014 every change mapped to the entities and rules it moves.',
+ determinations:'Live rule evaluation. Each verdict is computed from entity facts against rule conditions \u2014 apply a scanner change and watch it flip.',
+ register:'154 obligation rows at entity \u00d7 jurisdiction \u00d7 standard \u00d7 period grain. Colour = validation status.',
+ spotlight:'Why one applicability column cannot work \u2014 a single entity read three ways.',
+ coverage:'What is tested versus the work queue. The negative evidence is the deliverable.',
+ method:'Grain, triggers, and how to read confidence.'
+ };
+ document.getElementById('psub').textContent=subs[page];
+ document.getElementById('content').innerHTML=
+ ({scanner:pScanner,determinations:pDeterminations,register:pRegister,spotlight:pSpotlight,coverage:pCoverage,method:pMethod})[page]();
+}
+
+function pScanner(){
+ const feed=DATA.scanner.filter(e=>jur==='all'||e.jur===jur||e.jur.includes(jur));
+ const recalcCount=DATA.scanner.filter(e=>e.recalc).length;
+ return '<div class="kpis">'+
+ '<div class="kpi d"><div class="n">'+DATA.scanner.length+'</div><div class="l">Changes this cycle</div></div>'+
+ '<div class="kpi c"><div class="n">'+recalcCount+'</div><div class="l">Trigger a recalculation</div></div>'+
+ '<div class="kpi b"><div class="n">'+DATA.scanner.reduce((a,e)=>a+(e.affected_rows||0),0)+'</div><div class="l">Register rows moved</div></div>'+
+ '<div class="kpi e"><div class="n">'+new Set(DATA.scanner.flatMap(e=>e.affected_entities||[])).size+'</div><div class="l">Entities affected</div></div>'+
+ '<div class="kpi a"><div class="n">'+DATA.meta.stats.entities+'</div><div class="l">Entities in register</div></div>'+
+ '</div>'+
+ '<div class="panel"><h2>Regulatory horizon</h2>'+
+ '<div class="hint">Newest first. Changes marked <span class="tag eng">live rule</span> re-evaluate a determination when applied \u2014 the verdict actually flips.</div>'+
+ feed.map(evCard).join('')+'</div>';
+}
+function evCard(e){
+ const pills=(e.affected_entities||[]).map(id=>{
+ const ent=DATA.entities.find(x=>x.id===id);
+ return '<span class="ent-pill" onclick​="goEntity(\''+id+'\')">'+id+(ent?' \u00b7 '+ent.name.replace('Coca-Cola','CC').slice(0,26):'')+'</span>';
+ }).join('');
+ const applied=recalcApplied[e.date];
+ const isEngine=!!e.mutations;
+ const recalcBox=e.recalc?
+ '<div class="recalc"><div class="rlbl"><span class="pulse"></span>'+(isEngine?'Live rule recalculation ':'Recalculation ')+(applied?'applied':'available')+'</div>'+
+ e.recalc_note+
+ '<div style="margin-top:9px"><button class="btn'+(applied?' ghost':'')+'" onclick​="applyRecalc(\''+e.date+'\')">'+
+ (applied?'\u2713 Applied \u2014 view':(isEngine?'Apply & recalculate rules \u2192':'Apply & recalculate register \u2192'))+'</button></div></div>':'';
+ return '<div class="ev '+e.impact+'">'+
+ '<div class="ev-top"><div class="ev-tags">'+
+ '<span class="tag '+e.impact+'">'+e.impact+' impact</span>'+
+ '<span class="tag jur">'+e.jur+'</span>'+
+ '<span class="tag std">'+e.standard+'</span>'+
+ (isEngine?'<span class="tag eng">live rule</span>':'')+'</div>'+
+ '<span class="ev-date">'+e.date+'</span></div>'+
+ '<h3>'+e.headline+'</h3><p>'+e.detail+'</p>'+recalcBox+
+ '<div class="ev-foot"><span>Confidence: <b>'+e.confidence+'</b></span><span>Rows affected: <b>'+e.affected_rows+'</b></span></div>'+
+ '<div class="ent-pills">'+pills+'</div></div>';
+}
+function applyRecalc(date){
+ const e=DATA.scanner.find(x=>x.date===date);
+ if(e.mutations){ snapshotEval(); applyMutations(e.mutations); recalcApplied[date]=true; page='determinations'; render(); }
+ else { recalcApplied[date]=true; page='register'; jur='all'; render(); }
+}
+function goEntity(id){ page='register'; jur='all'; render();
+ setTimeout(function(){var el=document.getElementById('row-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},40);
+}
+function pDeterminations(){
+ const dirty=Object.keys(overrides.rules).length+Object.keys(overrides.entities).length>0;
+ return '<div class="panel"><h2>Live determinations</h2>'+
+ '<div class="hint">'+DATA.engine.baseline_note+(dirty?' &nbsp;<b>Changes applied.</b>':'')+'</div>'+
+ '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">'+
+ '<button class="btn line" onclick​="resetEngine()">\u21ba Reset to baseline</button>'+
+ '<button class="btn line" onclick​="simInjunction()">\u2696 Simulate: Ninth Circuit lifts SB 261 injunction</button>'+
+ '</div></div>'+
+ DATA.engine.determinations.map(detCard).join('');
+}
+function detCard(d){
+ const ev=evaluate(d.entity,d.rule);
+ const ent=DATA.engine.entities[d.entity];
+ const r=ev.rule;
+ const prev=prevResults[d.id];
+ const changed=prev&&prev!==ev.result;
+ const stampTxt=ev.boundary?ev.stamp:stampText(ev.result);
+ const conds=ev.trace.map(t=>
+ '<div class="cond"><span class="cl">'+t.label+(t.threshold?' <span style="color:var(--muted)">('+t.threshold+')</span>':'')+'</span>'+
+ '<span class="cv">'+t.actual+'<span class="pf '+(t.pass?'pass':'fail')+'">'+(t.pass?'PASS':'FAIL')+'</span></span></div>').join('');
+ const gate = (r.enforcement_active===false && ev.result==='monitoring')?
+ '<div class="gate">\u26a0 Enforcement gate: '+ (r.gate_reason||'enforcement paused') +'</div>':'';
+ const deadline = r.next_deadline?'<span>Next deadline: <b>'+r.next_deadline+'</b></span>':'';
+ const verifyFlags=(ent.verify||[]).length?' <span class="verify">VERIFY: '+ent.verify.join(', ')+'</span>':'';
+ const deltaChip=changed?
+ '<div class="delta"><span class="was">'+stampText(prev)+'</span> \u2192 <b>'+stampText(ev.result)+'</b> &middot; recalculated</div>':'';
+ return '<div class="det '+(changed?'changed':'')+'">'+
+ '<div class="det-head"><div>'+
+ '<div class="det-title">'+d.title+'</div>'+
+ '<div class="det-meta"><span class="jflag">'+r.jurisdiction+'</span> '+ent.name+' \u00b7 '+r.standard+verifyFlags+'</div>'+
+ '</div><div class="stamp '+stampClass(ev.result)+'">'+stampTxt+'</div></div>'+
+ deltaChip+
+ '<div class="trace"><div class="tlbl">Rule evaluation'+(r.logic?' ('+r.logic+')':'')+'</div>'+conds+gate+'</div>'+
+ '<div class="det-reason">'+ev.reason+'</div>'+
+ '<div class="det-foot">'+deadline+'<span>Confidence: <b>'+(r.confidence||'\u2014')+'</b></span><span>Source: '+(r.source||'\u2014')+'</span></div>'+
+ '</div>';
+}
+function simInjunction(){
+ snapshotEval();
+ const cur=(overrides.rules['R-CA-261']||{}).enforcement_active;
+ overrides.rules['R-CA-261']=Object.assign({},overrides.rules['R-CA-261']||{},{enforcement_active: cur===true?false:true});
+ render();
+}
+
+function recalcedEntities(){
+ const set=new Set();
+ Object.keys(recalcApplied).forEach(d=>{const e=DATA.scanner.find(x=>x.date===d);(e.affected_entities||[]).forEach(id=>set.add(id));});
+ return set;
+}
+function pRegister(){
+ const re=recalcedEntities();
+ let rows=DATA.obligations.filter(o=>jur==='all'||o.jurisdiction===jur);
+ rows=[...rows].sort((a,b)=>(re.has(a.entity_id)?0:1)-(re.has(b.entity_id)?0:1));
+ return '<div class="panel"><h2>Obligation register <span style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400">'+rows.length+' rows</span></h2>'+
+ '<div class="hint">'+(Object.keys(recalcApplied).length?'Highlighted rows were moved by an applied scanner change. Live rule verdicts live under Determinations.':'Apply a change from the Scanner to see rows recalculate here.')+'</div>'+
+ '<table><thead><tr><th>Entity</th><th>Jur.</th><th>Standard</th><th>Trigger</th><th>Scope</th><th>Reason / test result</th><th>Conf.</th></tr></thead><tbody>'+
+ rows.slice(0,60).map(function(o){
+ var hit=re.has(o.entity_id);
+ return '<tr class="r '+(hit?'flash':'')+'" id="row-'+o.entity_id+'">'+
+ '<td><b>'+o.entity_id+'</b> '+(o.entity?o.entity.replace('The Coca-Cola Company','KO').replace('Coca-Cola','CC'):'')+'<div style="color:var(--muted);font-size:10.5px">'+(o.tier||'')+'</div></td>'+
+ '<td><span class="jflag">'+(o.jurisdiction||'')+'</span></td>'+
+ '<td>'+(o.standard||'\u2014')+'</td>'+
+ '<td style="font-family:var(--mono);font-size:10px;color:var(--muted)">'+(o.trigger||'\u2014')+'</td>'+
+ '<td><span class="st '+scopeClassR(o.in_scope)+'">'+scopeLabelR(o.in_scope)+'</span></td>'+
+ '<td style="max-width:340px">'+(o.reason||'<span style=color:var(--muted)>\u2014</span>')+'</td>'+
+ '<td>'+(o.confidence?'<span class="conf '+o.confidence+'">'+o.confidence+'</span>':'\u2014')+'</td></tr>';
+ }).join('')+
+ '</tbody></table>'+
+ (rows.length>60?'<div class="hint" style="margin-top:12px">Showing first 60 of '+rows.length+'. Full grid ships in the register export.</div>':'')+'</div>';
+}
+function pSpotlight(){
+ const s=DATA.spotlight;
+ return '<div class="panel"><h2>'+s.entity+'</h2><div class="hint">'+s.summary+'</div>'+
+ s.triggers.map(function(t){return '<div class="trig"><div class="tt">'+t.type+'</div>'+
+ '<div class="tf">'+t.fact+'<small>'+t.result+'</small></div>'+
+ '<div class="verdict '+t.verdict+'">'+(t.verdict==='in'?'CAUGHT':'WEAK')+'</div></div>';}).join('')+
+ '<div style="margin-top:16px;font-size:12.5px;color:var(--muted);font-style:italic">Three attributes, three different answers, one entity \u2014 which is why applicability is stored as three independent tests (incorporation \u00b7 listing \u00b7 nexus+size), not a single flag. A listing-only tool would miss the EU nexus exposure entirely.</div></div>';
+}
+function pCoverage(){
+ const s=DATA.meta.stats, total=s.rows;
+ const pIn=Math.round(s.in_scope/total*100), pOut=Math.round(s.out_scope/total*100), pNt=100-pIn-pOut;
+ return '<div class="panel"><h2>Where the work is</h2>'+
+ '<div class="hint">The grid is deliberately larger than the answer. Most rows resolve OUT with a recorded reason \u2014 that negative evidence is what an assurance provider asks to see.</div>'+
+ '<div class="cover-bar">'+
+ '<div class="seg" style="width:'+pIn+'%;background:var(--green)">'+pIn+'%</div>'+
+ '<div class="seg" style="width:'+pOut+'%;background:var(--slate)">'+pOut+'%</div>'+
+ '<div class="seg" style="width:'+pNt+'%;background:hashtag#C9C1B0;color:var(--ink)">'+pNt+'% not yet tested</div></div>'+
+ '<div style="display:flex;gap:20px;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px">'+
+ '<span style="color:var(--green)">\u25a0 '+s.in_scope+' confirmed in scope</span>'+
+ '<span style="color:var(--slate)">\u25a0 '+s.out_scope+' confirmed out</span>'+
+ '<span>\u25a0 '+s.untested+' in the work queue</span></div></div>'+
+ '<div class="kpis">'+
+ '<div class="kpi e"><div class="n">'+s.entities+'</div><div class="l">Entities in master</div></div>'+
+ '<div class="kpi e"><div class="n">'+s.tier1+'</div><div class="l">Tier 1 filers</div></div>'+
+ '<div class="kpi e"><div class="n">'+s.tier2+'</div><div class="l">Tier 2 subsidiaries</div></div>'+
+ '<div class="kpi e"><div class="n">'+s.rules+'</div><div class="l">Rules decomposed</div></div>'+
+ '<div class="kpi d"><div class="n">'+s.untested+'</div><div class="l">Rows to test</div></div></div>'+
+ '<div class="panel"><h2>Why the queue is the pitch</h2><div class="hint">Each untested row is a scoped, priced unit of work \u2014 the register makes the engagement legible, not just the answer.</div></div>';
+}
+function pMethod(){
+ return '<div class="panel"><h2>The grain</h2><div class="hint">One row per <b>entity \u00d7 jurisdiction \u00d7 standard \u00d7 reporting period</b>. An entity is not "in scope of ISSB" \u2014 it is in scope of a specific standard, in a specific jurisdiction, for a specific period.</div></div>'+
+ '<div class="panel"><h2>How the rule engine decides</h2><div class="hint">Each determination evaluates entity facts against rule conditions, then applies two gates before a verdict: a <b>mandatory</b> flag (a voluntary regime is never applicable) and an <b>enforcement</b> gate (thresholds can be met while enforcement is paused \u2014 that resolves to MONITOR, not APPLICABLE). Every verdict shows its trace, so a reviewer checks the logic, not just the label.</div></div>'+
+ '<div class="panel"><h2>Three triggers, not one</h2><div class="hint">Reporting-entity status is the union of three independent tests:</div>'+
+ '<div class="trig"><div class="tt">INCORPORATION</div><div class="tf">Company-law / statutory-accounts duty<small>Governs CSRD (EU incorporation) and Mexico NIS (NIF preparers)</small></div><div></div></div>'+
+ '<div class="trig"><div class="tt">LISTING</div><div class="tf">Securities-regulator jurisdiction<small>Governs most ISSB adoptions \u2014 HKEX, SGX, TSE Prime, BMV, CVM, FCA</small></div><div></div></div>'+
+ '<div class="trig"><div class="tt">NEXUS + SIZE</div><div class="tf">Economic presence, independent of listing<small>Governs Australia, California, and the CSRD employees-AND-turnover test</small></div><div></div></div></div>'+
+ '<div class="panel"><h2>Effective dating is non-optional</h2><div class="hint">Every rule carries VALID FROM / VALID TO / SOURCE CHECKED. Brazil revoked its mandatory phase (Res. 244, Jun 2026), and CCBA moves consolidation from KO to Coca-Cola HBC on close (targeted end-2026). A register without dates is misleading within a quarter.</div></div>';
+}
+boot();
+<​/script>
+</body>
+</html>

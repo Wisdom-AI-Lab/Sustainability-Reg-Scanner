@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<​meta charset="UTF-8">
-<​meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ISSB Horizon Scanner — TCCC (demo)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<​style>
+<style>
  :root{
- --ink:hashtag#0E1116; --paper:hashtag#F6F4EF; --panel:hashtag#FFFFFF; --line:hashtag#E0DACF;
- --red:hashtag#B01E28; --red-bg:hashtag#F7E7E4; --red-ink:hashtag#8A1720;
- --amber:hashtag#B8791F; --amber-bg:hashtag#FBF0DC;
- --green:hashtag#2C6E49; --green-bg:hashtag#E7F0EA;
- --slate:#586174; --slate-bg:hashtag#EBEDF1;
- --muted:hashtag#6E6656;
+ --ink:#0E1116; --paper:#F6F4EF; --panel:#FFFFFF; --line:#E0DACF;
+ --red:#B01E28; --red-bg:#F7E7E4; --red-ink:#8A1720;
+ --amber:#B8791F; --amber-bg:#FBF0DC;
+ --green:#2C6E49; --green-bg:#E7F0EA;
+ --slate:#586174; --slate-bg:#EBEDF1;
+ --muted:#6E6656;
  --display:'Newsreader',serif; --body:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
  }
  *{box-sizing:border-box}
  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.5}
  .app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
- .sidebar{background:var(--ink);color:hashtag#E9E6DE;padding:22px 18px;position:sticky;top:0;height:100vh}
+ .sidebar{background:var(--ink);color:#E9E6DE;padding:22px 18px;position:sticky;top:0;height:100vh}
  .brand{font-family:var(--display);font-size:19px;line-height:1.15}
  .brand .k{color:var(--red);font-weight:700}
- .brand small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:hashtag#9AA3B2;margin-top:8px;line-height:1.5}
+ .brand small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:#9AA3B2;margin-top:8px;line-height:1.5}
  nav{margin-top:22px;display:flex;flex-direction:column;gap:1px}
- nav button{all:unset;cursor:pointer;padding:9px 11px;border-radius:5px;font-size:13.5px;color:hashtag#D7D3C9}
+ nav button{all:unset;cursor:pointer;padding:9px 11px;border-radius:5px;font-size:13.5px;color:#D7D3C9}
  nav button:hover{background:rgba(255,255,255,.06)}
- nav button.active{background:rgba(255,255,255,.13);color:hashtag#fff;font-weight:600}
- nav .ws{font-family:var(--mono);font-size:9px;color:hashtag#79839A;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 6px 11px}
- .side-foot{position:absolute;bottom:18px;left:18px;right:18px;font-family:var(--mono);font-size:10px;color:hashtag#79839A;line-height:1.6}
+ nav button.active{background:rgba(255,255,255,.13);color:#fff;font-weight:600}
+ nav .ws{font-family:var(--mono);font-size:9px;color:#79839A;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 6px 11px}
+ .side-foot{position:absolute;bottom:18px;left:18px;right:18px;font-family:var(--mono);font-size:10px;color:#79839A;line-height:1.6}
  main{padding:24px 34px 70px;max-width:1180px}
  .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:6px}
  h1{font-family:var(--display);font-size:30px;margin:0;letter-spacing:-.01em}
@@ -37,7 +37,7 @@
  .fresh b{color:var(--ink)}
  .chips{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 20px}
  .chip{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;padding:5px 11px;border-radius:20px;border:1px solid var(--line);background:var(--panel);cursor:pointer;color:var(--muted)}
- .chip.active{background:var(--ink);color:hashtag#fff;border-color:var(--ink)}
+ .chip.active{background:var(--ink);color:#fff;border-color:var(--ink)}
  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
  .kpi .n{font-family:var(--display);font-size:27px;line-height:1}
@@ -54,41 +54,41 @@
  .ev-tags{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
  .tag{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:4px}
  .tag.high{background:var(--red-bg);color:var(--red-ink)} .tag.medium{background:var(--amber-bg);color:var(--amber)} .tag.low{background:var(--slate-bg);color:var(--slate)}
- .tag.jur{background:hashtag#EFEBE2;color:var(--muted)} .tag.std{border:1px solid var(--line);color:var(--muted)}
- .tag.eng{background:var(--ink);color:hashtag#fff}
+ .tag.jur{background:#EFEBE2;color:var(--muted)} .tag.std{border:1px solid var(--line);color:var(--muted)}
+ .tag.eng{background:var(--ink);color:#fff}
  .ev h3{font-family:var(--display);font-size:17px;margin:9px 0 5px;line-height:1.25}
- .ev p{margin:0 0 10px;font-size:13px;color:hashtag#3A3A3A}
- .recalc{background:hashtag#FBF9F4;border:1px dashed var(--line);border-radius:7px;padding:11px 13px;font-size:12.5px}
+ .ev p{margin:0 0 10px;font-size:13px;color:#3A3A3A}
+ .recalc{background:#FBF9F4;border:1px dashed var(--line);border-radius:7px;padding:11px 13px;font-size:12.5px}
  .recalc .rlbl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--red-ink);margin-bottom:5px;display:flex;align-items:center;gap:6px}
  .recalc .rlbl .pulse{width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.6s infinite}
  @keyframes pulse{0%{opacity:.35}50%{opacity:1}100%{opacity:.35}}
-  .btn{font-family:var(--mono);font-size:11px;cursor:pointer;border:none;padding:7px 13px;border-radius:5px;background:var(--ink);color:hashtag#fff}
+  .btn{font-family:var(--mono);font-size:11px;cursor:pointer;border:none;padding:7px 13px;border-radius:5px;background:var(--ink);color:#fff}
  .btn.ghost{background:var(--slate-bg);color:var(--slate)}
  .btn.line{background:none;border:1px solid var(--line);color:var(--muted)}
  .ev-foot{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)}
  .ev-foot b{color:var(--ink)}
  .ent-pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
  .ent-pill{font-family:var(--mono);font-size:10px;background:var(--slate-bg);color:var(--slate);padding:2px 7px;border-radius:4px;cursor:pointer}
- .ent-pill:hover{background:var(--ink);color:hashtag#fff}
+ .ent-pill:hover{background:var(--ink);color:#fff}
  table{width:100%;border-collapse:collapse;font-size:12.5px}
  th{text-align:left;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);border-bottom:1px solid var(--line);padding:8px 9px;position:sticky;top:0;background:var(--panel)}
- td{padding:9px;border-bottom:1px solid hashtag#F0ECE3;vertical-align:top}
- tr.r:hover{background:hashtag#FBFAF6}
+ td{padding:9px;border-bottom:1px solid #F0ECE3;vertical-align:top}
+ tr.r:hover{background:#FBFAF6}
  .st{display:inline-block;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;padding:3px 7px;border-radius:4px;white-space:nowrap}
- .st.in{background:var(--green-bg);color:var(--green)} .st.out{background:var(--slate-bg);color:var(--slate)} .st.nt{background:hashtag#F2EEE4;color:var(--muted)}
+ .st.in{background:var(--green-bg);color:var(--green)} .st.out{background:var(--slate-bg);color:var(--slate)} .st.nt{background:#F2EEE4;color:var(--muted)}
  .flash{animation:flash 2.4s ease-out}
  @keyframes flash{0%{background:var(--amber-bg)}100%{background:transparent}}
  .conf{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:3px}
  .conf.High{background:var(--green-bg);color:var(--green)} .conf.Medium{background:var(--amber-bg);color:var(--amber)}
  .conf.Low,.conf.Unverified{background:var(--slate-bg);color:var(--slate)}
  .jflag{font-family:var(--mono);font-size:9.5px;padding:2px 6px;border:1px solid var(--line);border-radius:3px;color:var(--muted)}
- .trig{display:grid;grid-template-columns:130px 1fr 90px;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid hashtag#F0ECE3}
+ .trig{display:grid;grid-template-columns:130px 1fr 90px;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid #F0ECE3}
  .trig .tt{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em}
  .trig .tf{font-size:12.5px}
  .trig .tf small{display:block;color:var(--muted);margin-top:3px}
  .verdict{font-family:var(--mono);font-size:10px;text-transform:uppercase;text-align:center;padding:5px 8px;border-radius:5px;border:2px solid}
  .verdict.in{color:var(--green);border-color:var(--green)} .verdict.weak{color:var(--slate);border-color:var(--slate)}
- .cover-bar{height:26px;border-radius:6px;overflow:hidden;display:flex;font-family:var(--mono);font-size:10px;color:hashtag#fff;margin:10px 0 4px}
+ .cover-bar{height:26px;border-radius:6px;overflow:hidden;display:flex;font-family:var(--mono);font-size:10px;color:#fff;margin:10px 0 4px}
  .cover-bar .seg{display:flex;align-items:center;justify-content:center}
  .det{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:14px;background:var(--panel);position:relative}
  .det.changed{box-shadow:0 0 0 2px var(--amber) inset;animation:flash 2.4s ease-out}
@@ -103,7 +103,7 @@
  .delta .was{text-decoration:line-through;opacity:.7}
  .trace{margin-top:13px;border-top:1px dashed var(--line);padding-top:11px}
  .trace .tlbl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:7px}
- .cond{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted hashtag#EEEAE0;font-size:12.5px}
+ .cond{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted #EEEAE0;font-size:12.5px}
  .cond .cl{color:var(--ink)}
  .cond .cv{font-family:var(--mono);font-size:11px}
  .cond .cv .pf{padding:1px 6px;border-radius:3px;margin-left:8px}
@@ -115,7 +115,7 @@
  .verify{background:var(--amber-bg);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9.5px}
  footer.disc{margin-top:26px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
  @media(max-width:820px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.kpis{grid-template-columns:repeat(2,1fr)}.trig{grid-template-columns:1fr}}
-<​/style>
+</style>
 </head>
 <body>
 <div class="app">
@@ -134,7 +134,7 @@
  <footer class="disc" id="disc"></footer>
  </main>
 </div>
-<​script>
+<script>
 const PAGES=[
  {id:'scanner',label:'Scanner',ws:'Workstream 3 \u00b7 manage change'},
  {id:'determinations',label:'Determinations (live rules)'},
@@ -147,8 +147,33 @@ let DATA=null, page='scanner', jur='all', recalcApplied={};
 let overrides={entities:{},rules:{}}, prevResults={};
 
 async function boot(){
- try{ DATA=await (await fetch('data.json',{cache:'no-store'})).json(); }
- catch(e){ document.getElementById('content').innerHTML='<div class=panel>Could not load data.json \u2014 keep it beside index.html.</div>'; return; }
+ try{
+ const parts=await Promise.all(['data1.json','data2.json','data3.json'].map(async file=>{
+ const response=await fetch(file,{cache:'no-store'});
+ if(!response.ok)throw new Error('Could not load '+file+' (HTTP '+response.status+')');
+ try{return await response.json();}catch(e){throw new Error('Invalid JSON in '+file);}
+ }));
+ const data=Object.assign({},...parts);
+ if(!data.meta||!Array.isArray(data.scanner)||!Array.isArray(data.entities)||!Array.isArray(data.rules)||!Array.isArray(data.obligations)||!data.spotlight||!data.engine){
+ throw new Error('Required scanner data is missing');
+ }
+ const inScope=data.obligations.filter(o=>scopeClassR(o.in_scope)==='in').length;
+ const outScope=data.obligations.filter(o=>scopeClassR(o.in_scope)==='out').length;
+ data.meta.stats={entities:data.entities.length,
+ tier1:data.entities.filter(e=>e.tier==='Tier 1').length,
+ tier2:data.entities.filter(e=>e.tier==='Tier 2').length,
+ rules:data.rules.filter(r=>/^R\d+$/.test(r.id)).length,
+ rows:data.obligations.length,in_scope:inScope,out_scope:outScope,
+ untested:data.obligations.length-inScope-outScope};
+ DATA=data;
+ }catch(e){
+ const content=document.getElementById('content');
+ content.className='panel';content.setAttribute('role','alert');
+ content.textContent=e.message+'. Serve index.html and all three data files from the same web server.';
+ return;
+ }
+ document.getElementById('content').className='';
+ document.getElementById('content').removeAttribute('role');
  document.getElementById('fresh').innerHTML='Data as of <b>'+DATA.meta.last_updated+'</b> \u00b7 '+DATA.meta.cadence;
  document.getElementById('disc').textContent=DATA.meta.disclaimer;
  render();
@@ -199,7 +224,8 @@ function nav(){
 function chips(){
  const wrap=document.getElementById('chips');
  if(page!=='register'&&page!=='scanner'){wrap.innerHTML='';return;}
- const js=['all',...new Set(DATA.obligations.map(o=>o.jurisdiction))].slice(0,13);
+ const js=['all',...new Set((page==='scanner'?DATA.scanner.map(e=>e.jur):DATA.obligations.map(o=>o.jurisdiction)).filter(Boolean))];
+ if(!js.includes(jur))jur='all';
  wrap.innerHTML='';
  js.forEach(j=>{const c=document.createElement('div');c.className='chip'+(j===jur?' active':'');
  c.textContent=j==='all'?'All jurisdictions':j;c.onclick=()=>{jur=j;render();};wrap.appendChild(c);});
@@ -212,7 +238,7 @@ function render(){
  const subs={
  scanner:'The weekly regulatory feed \u2014 every change mapped to the entities and rules it moves.',
  determinations:'Live rule evaluation. Each verdict is computed from entity facts against rule conditions \u2014 apply a scanner change and watch it flip.',
- register:'154 obligation rows at entity \u00d7 jurisdiction \u00d7 standard \u00d7 period grain. Colour = validation status.',
+ register:DATA.obligations.length+' included obligation rows at entity \u00d7 jurisdiction \u00d7 standard \u00d7 period grain. Colour = validation status.',
  spotlight:'Why one applicability column cannot work \u2014 a single entity read three ways.',
  coverage:'What is tested versus the work queue. The negative evidence is the deliverable.',
  method:'Grain, triggers, and how to read confidence.'
@@ -223,31 +249,31 @@ function render(){
 }
 
 function pScanner(){
- const feed=DATA.scanner.filter(e=>jur==='all'||e.jur===jur||e.jur.includes(jur));
- const recalcCount=DATA.scanner.filter(e=>e.recalc).length;
+ const feed=DATA.scanner.filter(e=>jur==='all'||e.jur===jur).sort((a,b)=>b.date.localeCompare(a.date));
+ const recalcCount=DATA.scanner.filter(e=>e.mutations&&e.mutations.length).length;
  return '<div class="kpis">'+
  '<div class="kpi d"><div class="n">'+DATA.scanner.length+'</div><div class="l">Changes this cycle</div></div>'+
  '<div class="kpi c"><div class="n">'+recalcCount+'</div><div class="l">Trigger a recalculation</div></div>'+
- '<div class="kpi b"><div class="n">'+DATA.scanner.reduce((a,e)=>a+(e.affected_rows||0),0)+'</div><div class="l">Register rows moved</div></div>'+
+ '<div class="kpi b"><div class="n">'+DATA.scanner.reduce((a,e)=>a+(e.affected_rows||0),0)+'</div><div class="l">Reported row impacts (may overlap)</div></div>'+
  '<div class="kpi e"><div class="n">'+new Set(DATA.scanner.flatMap(e=>e.affected_entities||[])).size+'</div><div class="l">Entities affected</div></div>'+
  '<div class="kpi a"><div class="n">'+DATA.meta.stats.entities+'</div><div class="l">Entities in register</div></div>'+
  '</div>'+
  '<div class="panel"><h2>Regulatory horizon</h2>'+
- '<div class="hint">Newest first. Changes marked <span class="tag eng">live rule</span> re-evaluate a determination when applied \u2014 the verdict actually flips.</div>'+
+ '<div class="hint">Newest first. Changes marked <span class="tag eng">live rule</span> update demonstration determinations or deadlines when applied. Other changes highlight register rows for review; stored register verdicts are unchanged.</div>'+
  feed.map(evCard).join('')+'</div>';
 }
 function evCard(e){
  const pills=(e.affected_entities||[]).map(id=>{
  const ent=DATA.entities.find(x=>x.id===id);
- return '<span class="ent-pill" onclick​="goEntity(\''+id+'\')">'+id+(ent?' \u00b7 '+ent.name.replace('Coca-Cola','CC').slice(0,26):'')+'</span>';
+ return '<span class="ent-pill" onclick="goEntity(\''+id+'\')">'+id+(ent?' \u00b7 '+ent.name.replace('Coca-Cola','CC').slice(0,26):'')+'</span>';
  }).join('');
  const applied=recalcApplied[e.date];
- const isEngine=!!e.mutations;
- const recalcBox=e.recalc?
- '<div class="recalc"><div class="rlbl"><span class="pulse"></span>'+(isEngine?'Live rule recalculation ':'Recalculation ')+(applied?'applied':'available')+'</div>'+
+ const isEngine=!!(e.mutations&&e.mutations.length);
+ const recalcBox=(e.recalc||isEngine)?
+ '<div class="recalc"><div class="rlbl"><span class="pulse"></span>'+(isEngine?'Live rule update ':'Register review ')+(applied?(isEngine?'applied':'selected'):'available')+'</div>'+
  e.recalc_note+
- '<div style="margin-top:9px"><button class="btn'+(applied?' ghost':'')+'" onclick​="applyRecalc(\''+e.date+'\')">'+
- (applied?'\u2713 Applied \u2014 view':(isEngine?'Apply & recalculate rules \u2192':'Apply & recalculate register \u2192'))+'</button></div></div>':'';
+ '<div style="margin-top:9px"><button class="btn'+(applied?' ghost':'')+'" onclick="applyRecalc(\''+e.date+'\')">'+
+ (applied?'\u2713 View':(isEngine?'Apply & recalculate rules \u2192':'Highlight register rows \u2192'))+'</button></div></div>':'';
  return '<div class="ev '+e.impact+'">'+
  '<div class="ev-top"><div class="ev-tags">'+
  '<span class="tag '+e.impact+'">'+e.impact+' impact</span>'+
@@ -261,19 +287,22 @@ function evCard(e){
 }
 function applyRecalc(date){
  const e=DATA.scanner.find(x=>x.date===date);
- if(e.mutations){ snapshotEval(); applyMutations(e.mutations); recalcApplied[date]=true; page='determinations'; render(); }
+ if(!e)return;
+ if(e.mutations&&e.mutations.length){
+ if(!recalcApplied[date]){snapshotEval();applyMutations(e.mutations);recalcApplied[date]=true;}
+ page='determinations';render(); }
  else { recalcApplied[date]=true; page='register'; jur='all'; render(); }
 }
 function goEntity(id){ page='register'; jur='all'; render();
- setTimeout(function(){var el=document.getElementById('row-'+id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},40);
+ setTimeout(function(){var row=DATA.obligations.find(o=>o.entity_id===id);var el=row&&document.getElementById('row-'+row.id);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},40);
 }
 function pDeterminations(){
  const dirty=Object.keys(overrides.rules).length+Object.keys(overrides.entities).length>0;
  return '<div class="panel"><h2>Live determinations</h2>'+
  '<div class="hint">'+DATA.engine.baseline_note+(dirty?' &nbsp;<b>Changes applied.</b>':'')+'</div>'+
  '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">'+
- '<button class="btn line" onclick​="resetEngine()">\u21ba Reset to baseline</button>'+
- '<button class="btn line" onclick​="simInjunction()">\u2696 Simulate: Ninth Circuit lifts SB 261 injunction</button>'+
+ '<button class="btn line" onclick="resetEngine()">\u21ba Reset to baseline</button>'+
+ '<button class="btn line" onclick="simInjunction()">\u2696 Simulate: Ninth Circuit lifts SB 261 injunction</button>'+
  '</div></div>'+
  DATA.engine.determinations.map(detCard).join('');
 }
@@ -306,7 +335,7 @@ function detCard(d){
 }
 function simInjunction(){
  snapshotEval();
- const cur=(overrides.rules['R-CA-261']||{}).enforcement_active;
+ const cur=getRule('R-CA-261').enforcement_active;
  overrides.rules['R-CA-261']=Object.assign({},overrides.rules['R-CA-261']||{},{enforcement_active: cur===true?false:true});
  render();
 }
@@ -321,11 +350,11 @@ function pRegister(){
  let rows=DATA.obligations.filter(o=>jur==='all'||o.jurisdiction===jur);
  rows=[...rows].sort((a,b)=>(re.has(a.entity_id)?0:1)-(re.has(b.entity_id)?0:1));
  return '<div class="panel"><h2>Obligation register <span style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400">'+rows.length+' rows</span></h2>'+
- '<div class="hint">'+(Object.keys(recalcApplied).length?'Highlighted rows were moved by an applied scanner change. Live rule verdicts live under Determinations.':'Apply a change from the Scanner to see rows recalculate here.')+'</div>'+
+ '<div class="hint">'+(Object.keys(recalcApplied).length?'Highlighted rows belong to entities affected by a selected scanner change. Stored register verdicts are unchanged; computed verdicts are under Determinations.':'Select a Scanner change to highlight affected entities for review. Stored register verdicts do not recalculate.')+'</div>'+
  '<table><thead><tr><th>Entity</th><th>Jur.</th><th>Standard</th><th>Trigger</th><th>Scope</th><th>Reason / test result</th><th>Conf.</th></tr></thead><tbody>'+
- rows.slice(0,60).map(function(o){
+ rows.map(function(o){
  var hit=re.has(o.entity_id);
- return '<tr class="r '+(hit?'flash':'')+'" id="row-'+o.entity_id+'">'+
+ return '<tr class="r '+(hit?'flash':'')+'" id="row-'+o.id+'">'+
  '<td><b>'+o.entity_id+'</b> '+(o.entity?o.entity.replace('The Coca-Cola Company','KO').replace('Coca-Cola','CC'):'')+'<div style="color:var(--muted);font-size:10.5px">'+(o.tier||'')+'</div></td>'+
  '<td><span class="jflag">'+(o.jurisdiction||'')+'</span></td>'+
  '<td>'+(o.standard||'\u2014')+'</td>'+
@@ -334,8 +363,7 @@ function pRegister(){
  '<td style="max-width:340px">'+(o.reason||'<span style=color:var(--muted)>\u2014</span>')+'</td>'+
  '<td>'+(o.confidence?'<span class="conf '+o.confidence+'">'+o.confidence+'</span>':'\u2014')+'</td></tr>';
  }).join('')+
- '</tbody></table>'+
- (rows.length>60?'<div class="hint" style="margin-top:12px">Showing first 60 of '+rows.length+'. Full grid ships in the register export.</div>':'')+'</div>';
+ '</tbody></table></div>';
 }
 function pSpotlight(){
  const s=DATA.spotlight;
@@ -347,13 +375,13 @@ function pSpotlight(){
 }
 function pCoverage(){
  const s=DATA.meta.stats, total=s.rows;
- const pIn=Math.round(s.in_scope/total*100), pOut=Math.round(s.out_scope/total*100), pNt=100-pIn-pOut;
+ const pIn=total?Math.round(s.in_scope/total*100):0, pOut=total?Math.round(s.out_scope/total*100):0, pNt=total?100-pIn-pOut:0;
  return '<div class="panel"><h2>Where the work is</h2>'+
  '<div class="hint">The grid is deliberately larger than the answer. Most rows resolve OUT with a recorded reason \u2014 that negative evidence is what an assurance provider asks to see.</div>'+
  '<div class="cover-bar">'+
  '<div class="seg" style="width:'+pIn+'%;background:var(--green)">'+pIn+'%</div>'+
  '<div class="seg" style="width:'+pOut+'%;background:var(--slate)">'+pOut+'%</div>'+
- '<div class="seg" style="width:'+pNt+'%;background:hashtag#C9C1B0;color:var(--ink)">'+pNt+'% not yet tested</div></div>'+
+ '<div class="seg" style="width:'+pNt+'%;background:#C9C1B0;color:var(--ink)">'+pNt+'% not yet tested</div></div>'+
  '<div style="display:flex;gap:20px;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px">'+
  '<span style="color:var(--green)">\u25a0 '+s.in_scope+' confirmed in scope</span>'+
  '<span style="color:var(--slate)">\u25a0 '+s.out_scope+' confirmed out</span>'+
@@ -376,6 +404,6 @@ function pMethod(){
  '<div class="panel"><h2>Effective dating is non-optional</h2><div class="hint">Every rule carries VALID FROM / VALID TO / SOURCE CHECKED. Brazil revoked its mandatory phase (Res. 244, Jun 2026), and CCBA moves consolidation from KO to Coca-Cola HBC on close (targeted end-2026). A register without dates is misleading within a quarter.</div></div>';
 }
 boot();
-<​/script>
+</script>
 </body>
 </html>
